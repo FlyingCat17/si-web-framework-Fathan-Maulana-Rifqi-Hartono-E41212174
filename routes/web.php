@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Week3\ManagementUserController;
+use App\Http\Controllers\Week3Controller;
+use App\Http\Controllers\Week4Controller;
 use App\Http\Controllers\WeekController;
 use Illuminate\Support\Facades\Route;
 
@@ -59,3 +62,54 @@ Route::prefix('/week_2')->group(function () {
 });
 
 
+/**
+ * Minggu 3
+ * 
+ * MVC
+ * Model View Controller
+ * 
+ * Konsep MVC adalah konsep yang memisahkan antara logic dengan tampilan sehingga memudahkan dalam pengembangan aplikasi.
+ * Pada file ini adalah controller, dimana controller ini berfungsi untuk menghubungkan antara model dengan view.
+ * 
+ * Model dibuat jika kita ingin mengakses database, sedangkan view dibuat jika kita ingin menampilkan data ke user.
+ */
+
+Route::group([
+    'prefix' => 'week_3', // <== prefix ini dibuat untuk mengelompokkan route yang ada didalamnya
+    'as' => 'week_3' // <== as ini dibuat untuk memberikan nama pada route group
+], function () {
+    //Route::get('/', [Week3Controller::class, 'index']); // <== menggunakan controller dan mengakses fungsi index dalam controller Week3Controller
+
+    // Route Resources
+    // Route Resources adalah cara yang disediakan oleh framework Laravel untuk secara otomatis menghasilkan rute untuk tindakan CRUD umum dalam controller. Dengan menggunakan route resources, kita dapat mengatur rute untuk aksi seperti menampilkan semua data, menampilkan form tambah data, menyimpan data baru, menampilkan data per id, mengubah data, dan menghapus data.
+    
+    Route::resource('/', ManagementUserController::class);
+});
+
+
+/**
+ * 
+ * Minggu 4
+ * Templating Blade
+ * Templating Blade adalah fitur yang disediakan oleh framework Laravel untuk memudahkan dalam membuat tampilan website.
+ * 
+ * Contoh dibawah ini akan menampilkan landing page menggunakan template dari bootstrap yakni Butterfly Template
+ * 
+ */
+Route::get('/login', function () {
+    return redirect()->route('week_4.auth.login.create');
+});
+Route::group(['prefix' => 'week_4', 'as' => 'week_4.'], function(){
+    Route::get('/', [Week4Controller::class, 'index'])->name('index');
+    // Route Grouping untuk login dan register
+
+    // Pada group dibawah ini, akan dibuat route grouping untuk login dan register
+    // Route::group(['prefix' => 'auth', 'as' => 'auth.'], function(){
+    //     Route::get('/login', [Week4Controller::class, 'loginCreate'])->name('login.create');
+    //     Route::post('/login', [Week4Controller::class, 'loginStore'])->name('login.store');
+    //     Route::get('/register', [Week4Controller::class, 'register'])->name('register');
+    // });
+
+    Route::get('/dashboard', [Week4Controller::class, 'dashboard'])->name('dashboard');
+    // End Route Grouping Login and Register
+});
