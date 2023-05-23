@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 
@@ -28,9 +29,9 @@ class Week6Controller extends Controller
 
         try {
             $credentials = $request->only('username', 'password');
-            if (auth()->attempt($credentials)) {
+            if (Auth::attempt($credentials)) {
                 $request->session()->regenerate();
-                return $this->redirectWithSuccess('week_6.dashboard', 'Berhasil login');
+                return $this->redirectWithSuccess('week_7.dashboard', 'Berhasil login');
             }
 
             return $this->redirectWithDanger('week_6.auth.login-create', 'Username atau password salah');

@@ -83,7 +83,7 @@ Route::group([
 
     // Route Resources
     // Route Resources adalah cara yang disediakan oleh framework Laravel untuk secara otomatis menghasilkan rute untuk tindakan CRUD umum dalam controller. Dengan menggunakan route resources, kita dapat mengatur rute untuk aksi seperti menampilkan semua data, menampilkan form tambah data, menyimpan data baru, menampilkan data per id, mengubah data, dan menghapus data.
-    
+
     Route::resource('/', ManagementUserController::class);
 });
 
@@ -100,7 +100,7 @@ Route::group([
 Route::get('/login', function () {
     return redirect()->route('week_4.auth.login.create');
 });
-Route::group(['prefix' => 'week_4', 'as' => 'week_4.'], function(){
+Route::group(['prefix' => 'week_4', 'as' => 'week_4.'], function () {
     Route::get('/', [Week4Controller::class, 'index'])->name('index');
     // Route Grouping untuk login dan register
 
@@ -123,11 +123,47 @@ Route::group(['prefix' => 'week_4', 'as' => 'week_4.'], function(){
  * Contoh dibawah ini akan membuat route grouping untuk authentication
  */
 
- Route::group(['prefix' => 'week_6', 'as' => 'week_6.'], function(){
-    Route::group(['prefix' => 'auth', 'as' => 'auth.'], function(){
+Route::group(['prefix' => 'week_6', 'as' => 'week_6.', 'middleware' => 'guest'], function () {
+    Route::group(['prefix' => 'auth', 'as' => 'auth.'], function () {
         Route::get('/login', [Week6Controller::class, 'loginCreate'])->name('login-create');
         Route::post('/login', [Week6Controller::class, 'loginStore'])->name('login-store');
         Route::get('/register', [Week6Controller::class, 'registerCreate'])->name('register-create');
         Route::post('/register', [Week6Controller::class, 'registerStore'])->name('register-store');
     });
- });
+});
+
+/**
+ * Minggu 7
+ * Membuat fitur CRUD
+ * 
+ * Contoh dibawah ini akan membuat route grouping untuk CRUD
+ */
+
+// penerapan middleware auth. jadi jika user belum login, maka tidak bisa mengakses route dibawah ini
+/**
+ * 
+ * 
+ * Middleware
+ * Middleware adalah sebuah fitur yang disediakan oleh framework Laravel untuk memudahkan dalam mengatur akses user.
+ */
+Route::middleware(['auth'])->group(function () {
+    Route::group(['prefix' => 'week_7', 'as' => 'week_7.'], function () {
+        Route::get('/', function () {
+            return redirect()->route('week_7.dashboard');
+        });
+        Route::get('/dashboard', function () {
+            return view('week7.dashboard');
+        })->name('dashboard');
+        Route::resource('users', UserController::class)->names( // <== route resource untuk CRUD user
+            [
+                'index' => 'users.index',
+                'create' => 'users.create',
+                'store' => 'users.store',
+                'show' => 'users.show',
+                'edit' => 'users.edit',
+                'update' => 'users.update',
+                'destroy' => 'users.destroy',
+            ]
+        );
+    });
+});
