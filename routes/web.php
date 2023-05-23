@@ -110,6 +110,6 @@ Route::group(['prefix' => 'week_4', 'as' => 'week_4.'], function(){
     //     Route::get('/register', [Week4Controller::class, 'register'])->name('register');
     // });
 
-    Route::get('/dashboard', [Week4Controller::class, 'dashboard'])->name('dashboard');
     // End Route Grouping Login and Register
+    Route::get('/dashboard', [Week4Controller::class, 'dashboard'])->name('dashboard');
 });
