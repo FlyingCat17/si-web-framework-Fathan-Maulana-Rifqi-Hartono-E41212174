@@ -3,6 +3,7 @@
 use App\Http\Controllers\Week3\ManagementUserController;
 use App\Http\Controllers\Week3Controller;
 use App\Http\Controllers\Week4Controller;
+use App\Http\Controllers\Week6Controller;
 use App\Http\Controllers\WeekController;
 use Illuminate\Support\Facades\Route;
 
@@ -113,3 +114,20 @@ Route::group(['prefix' => 'week_4', 'as' => 'week_4.'], function(){
     // End Route Grouping Login and Register
     Route::get('/dashboard', [Week4Controller::class, 'dashboard'])->name('dashboard');
 });
+
+/**
+ * 
+ * Minggu 6
+ * Membuat fitur authentication login dan register
+ * 
+ * Contoh dibawah ini akan membuat route grouping untuk authentication
+ */
+
+ Route::group(['prefix' => 'week_6', 'as' => 'week_6.'], function(){
+    Route::group(['prefix' => 'auth', 'as' => 'auth.'], function(){
+        Route::get('/login', [Week6Controller::class, 'loginCreate'])->name('login-create');
+        Route::post('/login', [Week6Controller::class, 'loginStore'])->name('login-store');
+        Route::get('/register', [Week6Controller::class, 'registerCreate'])->name('register-create');
+        Route::post('/register', [Week6Controller::class, 'registerStore'])->name('register-store');
+    });
+ });

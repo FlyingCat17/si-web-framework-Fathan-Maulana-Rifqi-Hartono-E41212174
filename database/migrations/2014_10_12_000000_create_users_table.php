@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Menambahkan tabel users untuk membuat fitur login dan register
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('username')->unique(); // <== tambahkan username
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
